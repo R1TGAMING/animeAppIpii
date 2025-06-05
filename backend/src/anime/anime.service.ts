@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BaseUrlService } from 'src/common/base-url/base-url/base-url.service';
+import { BaseUrlService } from '../common/base-url/base-url/base-url.service';
 import * as cheerio from 'cheerio';
 import axios from 'axios';
 import { DataSearchAnimeDTO, PopularAnimeDTO } from './anime.dto';

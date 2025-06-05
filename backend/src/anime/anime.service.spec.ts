@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AnimeService } from './anime.service';
-import { BaseUrlService } from 'src/common/base-url/base-url/base-url.service';
-import { object } from 'zod';
+import { BaseUrlModule } from '../common/base-url/base-url/base-url.module';
 
 describe('AnimeService', () => {
   let service: AnimeService;
@@ -9,7 +8,7 @@ describe('AnimeService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AnimeService],
-      imports: [BaseUrlService],
+      imports: [BaseUrlModule],
     }).compile();
 
     service = module.get<AnimeService>(AnimeService);
@@ -19,7 +18,13 @@ describe('AnimeService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should return object', () => {
-    expect(service.searchAnime('one piece')).toBe(object);
+  it('search anime should be object', async () => {
+    const result = await service.searchAnime('naruto');
+    expect(typeof result).toBe('object');
+  });
+
+  it('get popular anime should be object', async () => {
+    const result = await service.getPopularAnime();
+    expect(typeof result).toBe('object');
   });
 });
