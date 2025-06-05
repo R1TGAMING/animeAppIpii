@@ -14,4 +14,13 @@ export class AnimeController {
       return e;
     }
   }
+
+  @Get('/popular')
+  popularAnime() {
+    try {
+      return this.animeService.getPopularAnime();
+    } catch (e: unknown) {
+      return e;
+    }
+  }
 }

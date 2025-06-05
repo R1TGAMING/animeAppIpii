@@ -17,11 +17,11 @@ describe('BaseUrlService', () => {
   });
 
   it('should return the base url', () => {
-    expect(service.getBaseUrl('baseUrl')).toBe('https://samehadaku.now');
+    expect(service.getBaseUrl('baseUrl')).toBe('https://www.oploverz.now');
   });
 
   it('should return the anime url', () => {
-    expect(service.getBaseUrl('anime')).toBe('https://samehadaku.now/anime');
+    expect(service.getBaseUrl('anime')).toBe('https://www.oploverz.now/anime');
   });
 
   it('should return the newAnime url', () => {
