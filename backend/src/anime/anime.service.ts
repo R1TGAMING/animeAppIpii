@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { BaseUrlService } from '../common/base-url/base-url/base-url.service';
 import * as cheerio from 'cheerio';
 import axios from 'axios';
-import { DataSearchAnimeDTO, PopularAnimeDTO } from './anime.dto';
+import {
+  DataSearchAnimeDTO,
+  LatestAnimeDTO,
+  PopularAnimeDTO,
+} from './anime.dto';
 
 @Injectable()
 export class AnimeService {
@@ -56,6 +60,75 @@ export class AnimeService {
         url: $(element).find('a').attr('href') || '',
         type: $(element).find('div.typez').text() || '',
       }));
+
+      data.push(...animeList);
+
+      return {
+        status: 200,
+        message: 'success',
+        data: data,
+      };
+    } catch (e: unknown) {
+      console.error(e);
+      if (e instanceof Error) {
+        throw new Error(e.message);
+      }
+    }
+  }
+
+  async getLatestAnime() {
+    try {
+      const uri = this.base_url.getBaseUrl('baseUrl');
+      const data: LatestAnimeDTO[] = [];
+      const res = await axios.get<string>(uri);
+      const $ = cheerio.load(res.data);
+      const latestList = $('div.excstf').eq(1).find('article');
+      const animeList = latestList.map((index, element) => {
+        return {
+          id: index + 1,
+          title: $(element).find('a').eq(1).text() || '',
+          poster: $(element).find('img').attr('src') || '',
+          status:
+            $(element)
+              .find('li')
+              .eq(0)
+              .clone()
+              .find('b')
+              .remove()
+              .end()
+              .text()
+              .trim() || '',
+          posted_by:
+            $(element)
+              .find('li')
+              .eq(1)
+              .clone()
+              .find('b')
+              .remove()
+              .end()
+              .text()
+              .trim() || '',
+          released:
+            $(element)
+              .find('li')
+              .eq(2)
+              .clone()
+              .find('b')
+              .remove()
+              .end()
+              .text()
+              .trim() || '',
+          genres: $(element)
+            .find('li')
+            .eq(4)
+            .find('a')
+            .map((i, e) => $(e).text().trim())
+            .get(),
+          score: $(element).find('div.upscore > span.scr').text() || '',
+          url: $(element).find('a').eq(0).attr('href') || '',
+          type: $(element).find('div.typez').text() || '',
+        };
+      });
 
       data.push(...animeList);
 

@@ -7,18 +7,27 @@ export class AnimeController {
   constructor(private animeService: AnimeService) {}
 
   @Get('/search')
-  searchAnime(@Query() query: SearchAnimeDTO) {
+  async searchAnime(@Query() query: SearchAnimeDTO) {
     try {
-      return this.animeService.searchAnime(query.q);
+      return await this.animeService.searchAnime(query.q);
     } catch (e: unknown) {
       return e;
     }
   }
 
   @Get('/popular')
-  popularAnime() {
+  async popularAnime() {
     try {
-      return this.animeService.getPopularAnime();
+      return await this.animeService.getPopularAnime();
+    } catch (e: unknown) {
+      return e;
+    }
+  }
+
+  @Get('/latest')
+  async latestAnime() {
+    try {
+      return await this.animeService.getLatestAnime();
     } catch (e: unknown) {
       return e;
     }
