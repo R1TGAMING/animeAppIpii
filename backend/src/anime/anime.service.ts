@@ -6,9 +6,9 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import * as cheerio from 'cheerio';
-import { catchError, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { PopularAnimeDto } from './dto/anime.dto';
-import { AxiosError, isAxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 @Injectable()
 export class AnimeService {
