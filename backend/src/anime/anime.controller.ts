@@ -30,4 +30,24 @@ export class AnimeController {
       }
     }
   }
+
+  @Get('latest')
+  async getLatestAnime() {
+    try {
+      const res = await this.animeService.getLatestAnime();
+      return {
+        status: HttpStatus.OK,
+        message: 'success',
+        data: res,
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
+      if (error instanceof InternalServerErrorException) {
+        throw error;
+      }
+    }
+  }
 }
