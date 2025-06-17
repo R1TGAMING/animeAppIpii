@@ -4,6 +4,7 @@ import {
   HttpException,
   HttpStatus,
   InternalServerErrorException,
+  Query,
 } from '@nestjs/common';
 import { AnimeService } from './anime.service';
 
@@ -35,6 +36,26 @@ export class AnimeController {
   async getLatestAnime() {
     try {
       const res = await this.animeService.getLatestAnime();
+      return {
+        status: HttpStatus.OK,
+        message: 'success',
+        data: res,
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
+      if (error instanceof InternalServerErrorException) {
+        throw error;
+      }
+    }
+  }
+
+  @Get('search')
+  async searchAnime(@Query('s') search: string) {
+    try {
+      const res = await this.animeService.searchAnime(search);
       return {
         status: HttpStatus.OK,
         message: 'success',
