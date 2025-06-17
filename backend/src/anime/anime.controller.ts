@@ -7,6 +7,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { AnimeService } from './anime.service';
+import { QueryAnimeDto } from './dto/search-anime.dto';
 
 @Controller('anime')
 export class AnimeController {
@@ -53,9 +54,9 @@ export class AnimeController {
   }
 
   @Get('search')
-  async searchAnime(@Query('s') search: string) {
+  async searchAnime(@Query() query: QueryAnimeDto) {
     try {
-      const res = await this.animeService.searchAnime(search);
+      const res = await this.animeService.searchAnime(query);
       return {
         status: HttpStatus.OK,
         message: 'success',
