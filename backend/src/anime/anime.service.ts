@@ -104,4 +104,39 @@ export class AnimeService {
       );
     }
   }
+
+  async searchAnime(query: string) {
+    try {
+      const res = await firstValueFrom(
+        this.httpService.get('https://www.oploverz.now?s=' + query),
+      );
+      const $ = cheerio.load(res.data);
+      const data: LatestAnimeDto[] = [];
+
+      const content = $('div.listupd');
+      const list = content.find('article.bs').toArray();
+
+      const getAllList = list.map((item, index) => ({
+        id: index + 1,
+        title: $(item).find('h2[itemprop="headline"]').text() || '',
+        url: $(item).find('a').attr('href') || '',
+        poster: $(item).find('img').attr('src') || '',
+        type: $(item).find('div.typez').text() || '',
+        status: $(item).find('span.epx').text() || '',
+      }));
+
+      data.push(...getAllList);
+
+      return data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw new HttpException(error.response?.data, HttpStatus.BAD_GATEWAY);
+      }
+
+      throw new InternalServerErrorException(
+        'Failed to fetch latest anime',
+        error,
+      );
+    }
+  }
 }
