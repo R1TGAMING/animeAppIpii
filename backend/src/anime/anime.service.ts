@@ -10,6 +10,7 @@ import { firstValueFrom } from 'rxjs';
 import { PopularAnimeDto } from './dto/popular-anime.dto';
 import { AxiosError } from 'axios';
 import { LatestAnimeDto } from './dto/latest-anime.dto';
+import { QueryAnimeDto } from './dto/search-anime.dto';
 
 @Injectable()
 export class AnimeService {
@@ -113,10 +114,10 @@ export class AnimeService {
     }
   }
 
-  async searchAnime(query: string) {
+  async searchAnime(query: QueryAnimeDto) {
     try {
       const res = await firstValueFrom(
-        this.httpService.get('https://www.oploverz.now?s=' + query),
+        this.httpService.get('https://www.oploverz.now?s=' + query.s),
       );
       const $ = cheerio.load(res.data);
       const data: LatestAnimeDto[] = [];

@@ -1,5 +1,17 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
+export class QueryAnimeDto {
+  @IsString()
+  @MinLength(1)
+  @MaxLength(100)
+  s: string;
+}
 export class SearchAnimeDto {
   @IsNumber()
   id: number;
