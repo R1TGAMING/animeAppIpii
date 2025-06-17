@@ -40,6 +40,10 @@ export class AnimeService {
 
       return data;
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       if (error instanceof AxiosError) {
         throw new HttpException(error.response?.data, HttpStatus.BAD_GATEWAY);
       }
@@ -95,6 +99,10 @@ export class AnimeService {
 
       return data;
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       if (error instanceof AxiosError) {
         throw new HttpException(error.response?.data, HttpStatus.BAD_GATEWAY);
       }
@@ -128,15 +136,25 @@ export class AnimeService {
 
       data.push(...getAllList);
 
+      if (data.length === 0) {
+        throw new HttpException(
+          'No anime found for the given search query',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
       return data;
     } catch (error) {
-      console.error('Error fetching search results:', error);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       if (error instanceof AxiosError) {
         throw new HttpException(error.response?.data, HttpStatus.BAD_GATEWAY);
       }
 
       throw new InternalServerErrorException(
-        'Failed to fetch latest anime',
+        'Failed to fetch search anime',
         error,
       );
     }

@@ -64,6 +64,7 @@ export class AnimeController {
       };
     } catch (error) {
       if (error instanceof HttpException) {
+        console.error('HttpException:', error);
         throw error;
       }
 
