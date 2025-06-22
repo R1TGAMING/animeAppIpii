@@ -31,6 +31,12 @@ export class AnimeService {
         id: index + 1,
         title: $(item).find('h2').text() || '',
         url: $(item).find('a').attr('href') || '',
+        slug:
+          $(item)
+            .find('a')
+            .attr('href')
+            ?.replace(/^.+now\//, '')
+            .replace(/\/$/, '') || '',
         poster: $(item).find('img').attr('src') || '',
         type: $(item).find('div.typez').text() || '',
         latest_episode: $(item).find('span.epx').text() || '',
@@ -84,6 +90,13 @@ export class AnimeService {
           url:
             $(item).find('h2[itemprop="headline"]').find('a').attr('href') ||
             '',
+          slug:
+            $(item)
+              .find('h2[itemprop="headline"]')
+              .find('a')
+              .attr('href')
+              ?.replace(/(^.+now\/)anime\/?/, '')
+              .replace(/\/$/, '') || '',
           type: $(item).find('div.typez').text().trim() || '',
           latest_episode: $(item).find('span.epx').text().trim() || '',
           status: infList.eq(0).text().trim() || '',
@@ -129,6 +142,12 @@ export class AnimeService {
         id: index + 1,
         title: $(item).find('h2[itemprop="headline"]').text() || '',
         url: $(item).find('a').attr('href') || '',
+        slug:
+          $(item)
+            .find('a')
+            .attr('href')
+            ?.replace(/(^.+now\/)anime\/?/, '')
+            .replace(/\/$/, '') || '',
         poster: $(item).find('img').attr('src') || '',
         type: $(item).find('div.typez').text() || '',
         status: $(item).find('span.epx').text() || '',
