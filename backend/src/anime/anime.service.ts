@@ -34,8 +34,10 @@ export class AnimeService {
           $(item)
             .find('a')
             .attr('href')
-            ?.replace(/^.+now\//, '')
-            .replace(/\/$/, '') || '',
+            ?.replace(/(^.+now\/)anime\/?|^.+now\//, '')
+            .replace(/\/$/, '')
+            .replace(/-episode.+/, '')
+            .replace(/-s(\d+)/, '-season-$1') || '',
         poster: $(item).find('img').attr('src') || '',
         type: $(item).find('div.typez').text() || '',
         latest_episode: $(item).find('span.epx').text() || '',
@@ -94,8 +96,10 @@ export class AnimeService {
               .find('h2[itemprop="headline"]')
               .find('a')
               .attr('href')
-              ?.replace(/(^.+now\/)anime\/?/, '')
-              .replace(/\/$/, '') || '',
+              ?.replace(/(^.+now\/)anime\/?|^.+now\//, '')
+              .replace(/\/$/, '')
+              .replace(/-episode.+/, '')
+              .replace(/-s(\d+)/, '-season-$1') || '',
           type: $(item).find('div.typez').text().trim() || '',
           latest_episode: $(item).find('span.epx').text().trim() || '',
           status: infList.eq(0).text().trim() || '',
@@ -145,8 +149,9 @@ export class AnimeService {
           $(item)
             .find('a')
             .attr('href')
-            ?.replace(/(^.+now\/)anime\/?/, '')
-            .replace(/\/$/, '') || '',
+            ?.replace(/(^.+now\/)anime\/?|^.+now\//, '')
+            .replace(/\/$/, '')
+            .replace(/-s(\d+)/, '-season-$1') || '',
         poster: $(item).find('img').attr('src') || '',
         type: $(item).find('div.typez').text() || '',
         status: $(item).find('span.epx').text() || '',
