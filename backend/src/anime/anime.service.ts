@@ -37,7 +37,7 @@ export class AnimeService {
             .attr('href')
             ?.replace(/(^.+now\/)anime\/?|^.+now\//, '')
             .replace(/\/$/, '')
-            .replace(/-episode.+/, '')
+            .replace(/-episode.+|-subtitle.+/, '')
             .replace(/-s(\d+)/, '-season-$1') || '',
         poster: $(item).find('img').attr('src') || '',
         type: $(item).find('div.typez').text() || '',
